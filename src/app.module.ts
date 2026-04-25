@@ -6,6 +6,7 @@ import { join } from 'path';
 import { AccountsModule } from './accounts/accounts.module';
 import { AdsModule } from './ads/ads.module';
 import { VideosModule } from './videos/videos.module';
+import { SocialModule } from './social/social.module';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
@@ -28,6 +29,7 @@ import { ConfigModule } from '@nestjs/config';
     AccountsModule,
     AdsModule,
     VideosModule,
+    SocialModule,
   ],
 })
 export class AppModule {}
