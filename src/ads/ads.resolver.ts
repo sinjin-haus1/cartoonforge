@@ -1,4 +1,13 @@
-import { Resolver, Query, Mutation, Args, ID } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ID,
+  InputType,
+  Field,
+  ObjectType,
+} from '@nestjs/graphql';
 import { Ad, AdStyle, AdStatus } from './ad.entity';
 import { AdsService } from './ads.service';
 
@@ -26,10 +35,10 @@ export class AdsResolver {
     return this.adsService.create(input);
   }
 
-  @Mutation(() => Ad)
+  @Mutation(() => ImageGenerationResult)
   async generateAdImage(
     @Args('id', { type: () => ID }) id: string,
-  ): Promise<{ imageUrl: string; publicId: string }> {
+  ): Promise<ImageGenerationResult> {
     const ad = await this.adsService.findOne(id);
     return this.adsService.generateCartoonImage(ad);
   }
@@ -48,7 +57,7 @@ export class AdsResolver {
   }
 }
 
-@ArgsType()
+@InputType()
 class CreateAdInput {
   @Field()
   userId: string;
@@ -60,7 +69,7 @@ class CreateAdInput {
   style: AdStyle;
 }
 
-@ArgsType()
+@InputType()
 class UpdateAdInput {
   @Field({ nullable: true })
   productDescription?: string;
@@ -73,6 +82,15 @@ class UpdateAdInput {
 
   @Field(() => AdStatus, { nullable: true })
   status?: AdStatus;
+}
+
+@ObjectType()
+class ImageGenerationResult {
+  @Field()
+  imageUrl: string;
+
+  @Field()
+  publicId: string;
 }
 
 @ObjectType()
